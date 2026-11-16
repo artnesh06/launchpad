@@ -1,0 +1,15 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+User-agent: *
+Disallow: /admin/
+Disallow: /api/admin/
+
+# Disallow test pages
+User-agent: *
+Disallow: /test-ipfs-api/
+
+# Sitemap
+Sitemap: https://testnet.oddslaunchpad.com/sitemap.xml

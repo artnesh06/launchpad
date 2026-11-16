@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "launchpad_analytics" ALTER COLUMN "totalVolume" SET DEFAULT '0',
+ALTER COLUMN "totalVolume" SET DATA TYPE TEXT,
+ALTER COLUMN "avgMintPrice" SET DEFAULT '0',
+ALTER COLUMN "avgMintPrice" SET DATA TYPE TEXT,
+ALTER COLUMN "floorPrice" SET DATA TYPE TEXT,
+ALTER COLUMN "lastSalePrice" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "launchpads" ALTER COLUMN "volume" SET DEFAULT '0',
+ALTER COLUMN "volume" SET DATA TYPE TEXT;

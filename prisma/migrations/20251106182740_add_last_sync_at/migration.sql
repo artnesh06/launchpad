@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "launchpads" ADD COLUMN     "lastSyncAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

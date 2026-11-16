@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BASE_API_URL: ${NEXT_PUBLIC_BASE_API_URL}
+    image: odds-launchpad:latest
+    container_name: odds-launchpad-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL}
+      # Node.js performance tuning for 10k+ connections
+      - NODE_OPTIONS=--max-old-space-size=4096 --max-http-header-size=80000
+      - UV_THREADPOOL_SIZE=128
+      # Increase file descriptor limits
+      - NODE_MAX_SOCKETS=10000
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - app-network
+    healthcheck:
+      # The image has no curl; use node (same check as the Dockerfile HEALTHCHECK)
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 4G
+        reservations:
+          cpus: '2'
+          memory: 2G
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  app-network:
+    driver: bridge
