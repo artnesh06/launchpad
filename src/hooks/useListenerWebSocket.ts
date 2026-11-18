@@ -247,7 +247,7 @@ function broadcastError(error: Error | null): void {
  */
 function getListenerWebSocketUrl(): string {
   // Use the backend URL for WebSocket connection
-  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://dev.backend.oddslaunchpad.com';
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://launchpad-api.artnesh.com';
   
   // Convert HTTP URL to WebSocket URL if needed
   // The listener service uses the same port for HTTP and WebSocket

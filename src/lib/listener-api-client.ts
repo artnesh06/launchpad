@@ -345,13 +345,17 @@ export class ListenerApiClient {
     adminApiKey?: string;
   }) {
     // Use NEXT_PUBLIC_BACKEND_URL environment variable or fallback
-    this.baseUrl = options?.baseUrl || 
-      (typeof window !== 'undefined' 
-        ? process.env.NEXT_PUBLIC_BACKEND_URL || 'https://dev.backend.oddslaunchpad.com'
-        : process.env.NEXT_PUBLIC_BACKEND_URL || 'https://dev.backend.oddslaunchpad.com');
+    // In the browser every call goes through the admin proxy
+    // (/api/admin/listener/*), which checks the admin session and adds the
+    // listener's admin key server-side. On the server we call the listener directly.
+    this.baseUrl = options?.baseUrl ||
+      (typeof window !== 'undefined'
+        ? `${window.location.origin}/api/admin/listener`
+        : process.env.LISTENER_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001');
     
     this.retryConfig = { ...defaultRetryConfig, ...options?.retryConfig };
-    this.adminApiKey = options?.adminApiKey || process.env.ADMIN_API_KEY;
+    this.adminApiKey = options?.adminApiKey ||
+      (typeof window === 'undefined' ? process.env.LISTENER_ADMIN_API_KEY : undefined);
   }
 
   /**

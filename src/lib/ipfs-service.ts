@@ -98,15 +98,20 @@ export class IPFSService {
    * @param onProgress - Progress callback (percentage 0-100)
    * @returns Promise with response JSON
    */
-  private uploadWithProgress<T>(
+  private async uploadWithProgress<T>(
     url: string,
     formData: FormData,
     onProgress?: (percentage: number, uploadedBytes: number, totalBytes: number) => void
   ): Promise<T> {
+    // The listener's upload endpoint requires the creator's wallet signature
+    const authHeaders = await this.getUploadAuthHeaders();
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      
+
       xhr.open('POST', url, true);
+      for (const [name, value] of Object.entries(authHeaders)) {
+        xhr.setRequestHeader(name, value);
+      }
       
       // Track upload progress
       xhr.upload.onprogress = (event) => {
@@ -1034,7 +1039,7 @@ export class IPFSService {
     console.log(`📤 Uploading folder with relative paths (single upload)...`);
 
     // Use backend API for folder upload (nft-listener-service)
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://dev.backend.oddslaunchpad.com';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://launchpad-api.artnesh.com';
     const uploadUrl = `${backendUrl}/api/ipfs/upload-folder`;
     
     console.log(`📤 Using backend API: ${uploadUrl}`);

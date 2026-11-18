@@ -11,7 +11,7 @@ export const websocketConfig = {
   // WebSocket server URL
   // For Vercel: Connect directly to external WebSocket server (Railway, etc.)
   // Proxy (/api/ws) not recommended due to Vercel serverless limits
-  url: process.env.NEXT_PUBLIC_WEBSOCKET_URL || 'http://localhost:3002',
+  url: process.env.NEXT_PUBLIC_WEBSOCKET_URL || process.env.NEXT_PUBLIC_BACKEND_URL || 'https://launchpad-api.artnesh.com',
   
   // Connection options
   options: {
