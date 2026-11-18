@@ -176,6 +176,17 @@ export function CollectionHeader({
               {/* Dark overlay for better text readability */}
               <div className="absolute h-full inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/90" />
             </>
+          ) : thumbnailUrl ? (
+            // No banner uploaded: use the collection image, blurred, as backdrop
+            <>
+              <IpfsImage
+                src={thumbnailUrl}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover scale-125 blur-2xl opacity-60"
+                showLoader={false}
+              />
+              <div className="absolute h-full inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90" />
+            </>
           ) : (
             <div className="h-full w-full bg-gradient-to-br from-[#1E1F22] to-[#0D0E11]" />
           )}

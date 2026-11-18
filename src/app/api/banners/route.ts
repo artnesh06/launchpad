@@ -87,6 +87,45 @@ export async function GET(request: NextRequest) {
       } : undefined
     }));
 
+      // No banner configured by the admin yet: feature the top collections
+      // instead of leaving the homepage hero empty. Admin banners always win.
+      if (mappedBanners.length === 0 && status === 'ACTIVE') {
+        const top = await prisma.launchpad.findMany({
+          where: { status: 'ACTIVE', metadata: { image: { not: null } } },
+          include: { metadata: true },
+          orderBy: [{ isFeatured: 'desc' }, { mintedCount: 'desc' }, { createdAt: 'desc' }],
+          take: 5,
+        });
+        const fallback = top
+          .filter((lp) => lp.metadata?.bannerImage || lp.metadata?.image)
+          .map((lp, i) => ({
+            id: `auto-${lp.id}`,
+            banner_id: i + 1,
+            banner_title: lp.name,
+            banner_creator: `${lp.creator.slice(0, 6)}...${lp.creator.slice(-4)}`,
+            banner_network: 'MegaETH',
+            banner_image: lp.metadata!.bannerImage || lp.metadata!.image!,
+            banner_thumbnail: lp.metadata!.image || lp.metadata!.bannerImage!,
+            banner_type: 'I',
+            banner_twiter: lp.metadata!.twitter || '',
+            banner_discord: lp.metadata!.discord || '',
+            banner_telegram: lp.metadata!.telegram || '',
+            banner_collection_address: lp.contractAddress,
+            banner_minted_date: null,
+            banner_minted_link: '',
+            banner_status: 'ACTIVE',
+            banner_seqn: i + 1,
+            launchpad: {
+              collectionAddress: lp.contractAddress,
+              name: lp.name,
+              totalMaxSupply: lp.totalMaxSupply,
+              mintedCount: lp.mintedCount,
+              status: lp.status,
+            },
+          }));
+        return NextResponse.json({ success: true, data: fallback, fallback: true });
+      }
+
       return NextResponse.json({
         success: true,
         data: mappedBanners
