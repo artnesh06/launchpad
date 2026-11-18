@@ -20,9 +20,28 @@ export interface ChainConfig {
 }
 
 export const SUPPORTED_CHAINS: Record<number, ChainConfig> = {
+  4326: {
+    id: 4326,
+    name: "MegaETH",
+    network: "megaeth",
+    rpcUrl: getProxiedRpcUrl(4326), // Secure proxy for client-side
+    rpcUrls: [
+      getProxiedRpcUrl(4326),
+    ],
+    blockExplorer: "https://mega.etherscan.io",
+    nativeCurrency: {
+      name: "Ether",
+      symbol: "ETH",
+      decimals: 18,
+    },
+    launchpadFactoryAddress: "0x779e3426ccf433746c686caff67e33b92a9b8b2c",
+    isTestnet: false,
+    icon: "/images/Chain/MegaETH.webp",
+    blockTime: 1
+  },
   6343: {
     id: 6343,
-    name: "MegaETH",
+    name: "MegaETH Testnet",
     network: "megaeth-testnet-v2",
     rpcUrl: getProxiedRpcUrl(6343), // Secure proxy for client-side
     rpcUrls: [

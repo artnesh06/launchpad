@@ -353,6 +353,9 @@ export function resolveImagePath(
 export function ipfsToHttp(ipfsUri: string | null | undefined, gateway?: string): string | null {
   if (!ipfsUri) return null;
 
+  // Local assets (/images/...) and data/blob URLs are not IPFS content
+  if (ipfsUri.startsWith('/') || ipfsUri.startsWith('data:') || ipfsUri.startsWith('blob:')) return ipfsUri;
+
   // If already HTTP URL, check if it's an IPFS gateway URL
   if (ipfsUri.startsWith('http://') || ipfsUri.startsWith('https://')) {
     // Check if it's an IPFS gateway URL

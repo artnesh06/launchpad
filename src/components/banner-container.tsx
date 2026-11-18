@@ -51,10 +51,12 @@ export default function BannerContainer() {
   }
 
   if (banners.length === 0) {
+    // No featured banner configured yet: show the default ODDS hero
     return (
       <div className="border border-[#2F3336]">
-        <div className="relative h-[300px] flex items-center justify-center bg-black/50">
-          <div className="text-white">No banners available</div>
+        <div className="relative h-[300px] overflow-hidden bg-black">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/images/Banner.png" alt="ODDS" className="h-full w-full object-cover opacity-90" />
         </div>
       </div>
     );

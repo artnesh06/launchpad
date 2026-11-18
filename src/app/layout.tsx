@@ -7,7 +7,6 @@ import type { Metadata, Viewport } from 'next';
 import { cookies } from 'next/headers';
 import NextTopLoader from 'nextjs-toploader';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
-import { Analytics } from '@vercel/analytics/next';
 import './globals.css';
 import './theme.css';
 
@@ -144,7 +143,6 @@ export default async function RootLayout({
             <Toaster position="top-right" expand={false} richColors closeButton visibleToasts={3} />
           </ThemeProvider>
         </NuqsAdapter>
-        <Analytics />
       </body>
     </html>
   );

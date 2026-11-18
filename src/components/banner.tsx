@@ -254,7 +254,7 @@ const Banner = ({ items }: BannerProps) => {
   };
 
   const renderMedia = (banner: BannerWithLaunchpad) => {
-    const mediaUrl = ipfsToHttp(banner.banner_image) || '/images/Odds-Garden.png';
+    const mediaUrl = ipfsToHttp(banner.banner_image) || '/images/Banner.png';
 
     if (banner.banner_type == 'V') {
       return (
@@ -371,7 +371,7 @@ const Banner = ({ items }: BannerProps) => {
   return (
     <div className="border-x border-t border-[#2F3336]">
       <div className="relative h-[300px]">
-        <div className="h-1/2 w-full bg-[url('/images/blur.gif')] bg-cover bg-center opacity-50"></div>
+        <div className="h-1/2 w-full bg-gradient-to-b from-[#1a1033] to-black opacity-50"></div>
         <div className="pointer-events-none absolute inset-0 bg-black/10 backdrop-blur-xl"></div>
         <div className="pointer-events-none z-1 absolute bottom-0 left-0 hidden h-[100px] w-full md:!block" />
         <div className="absolute left-0 right-0 top-0">
@@ -399,7 +399,7 @@ const Banner = ({ items }: BannerProps) => {
                               target="_blank"
                             >
                               <img
-                                src="/images/x.png"
+                                src="/images/icons/X.png"
                                 className="h-[20px] md:h-[35px]"
                               />
                             </Link>
@@ -409,7 +409,7 @@ const Banner = ({ items }: BannerProps) => {
                               target="_blank"
                             >
                               <img
-                                src="/images/discord.png"
+                                src="/images/icons/Discord.png"
                                 className="h-[20px] md:h-[35px]"
                               />
                             </Link>
@@ -418,10 +418,14 @@ const Banner = ({ items }: BannerProps) => {
                               href={banner.banner_telegram ?? ''}
                               target="_blank"
                             >
-                              <img
-                                src="/images/Telegram.png"
-                                className="h-[20px] md:h-[35px]"
-                              />
+                              <svg
+                                viewBox="0 0 24 24"
+                                fill="currentColor"
+                                aria-label="Telegram"
+                                className="h-[20px] w-[20px] text-white md:h-[35px] md:w-[35px]"
+                              >
+                                <path d="M9.04 15.47 8.67 20.7c.53 0 .76-.23 1.04-.5l2.5-2.39 5.18 3.79c.95.52 1.62.25 1.88-.88l3.4-15.93c.31-1.44-.52-2-1.45-1.66L1.2 10.9c-1.4.55-1.38 1.33-.24 1.68l5.14 1.6L18.03 6.7c.56-.37 1.07-.17.65.2"/>
+                              </svg>
                             </Link>
                           </div>
                           <div className="grid items-end justify-between gap-y-2 md:flex">
