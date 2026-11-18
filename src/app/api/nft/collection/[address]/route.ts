@@ -71,7 +71,7 @@ export async function GET(
       }
 
       // Get contract metadata
-      const contract = await prisma.nFTContract.findUnique({
+      const storedContract = await prisma.nFTContract.findUnique({
         where: {
           address_chainId: {
             address: address.toLowerCase(),
@@ -80,15 +80,28 @@ export async function GET(
         }
       });
 
-      if (!contract) {
-        return NextResponse.json(
-          { 
-            success: false,
-            error: 'Contract not found in database. Please sync the collection first.' 
-          },
-          { status: 404 }
-        );
-      }
+      // The listener creates the nft_contracts row when the first NFT is
+      // synced, so a collection with no mints yet has none. Its detail page
+      // must still load (empty item list), so fall back to the launchpad row.
+      const contract = storedContract ?? {
+        address: launchpad.contractAddress.toLowerCase(),
+        name: launchpad.name,
+        symbol: launchpad.symbol,
+        totalSupply: String(launchpad.mintedCount ?? 0),
+        tokenType: 'ERC721',
+        contractDeployer: launchpad.creator,
+        deployedBlockNumber: null,
+        openSeaFloorPrice: null,
+        openSeaCollectionName: null,
+        openSeaCollectionSlug: null,
+        openSeaSafelistStatus: null,
+        openSeaImageUrl: null,
+        openSeaDescription: null,
+        openSeaExternalUrl: null,
+        openSeaTwitter: null,
+        openSeaDiscord: null,
+        openSeaBannerImageUrl: null,
+      };
 
       // Get total count
       const totalCount = await prisma.nFT.count({
