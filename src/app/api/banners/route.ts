@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
         const top = await prisma.launchpad.findMany({
           where: { status: 'ACTIVE', metadata: { image: { not: null } } },
           include: { metadata: true },
-          orderBy: [{ isFeatured: 'desc' }, { mintedCount: 'desc' }, { createdAt: 'desc' }],
+          orderBy: [{ mintedCount: 'desc' }, { createdAt: 'desc' }],
           take: 5,
         });
         const fallback = top
