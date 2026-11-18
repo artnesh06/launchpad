@@ -1,4 +1,7 @@
-import { SUPPORTED_CHAINS, ChainConfig } from '@/config/chains';
+import { SUPPORTED_CHAINS, ChainConfig, VISIBLE_CHAIN_IDS } from '@/config/chains';
+
+const visibleChains = (): ChainConfig[] =>
+  Object.values(SUPPORTED_CHAINS).filter((chain) => VISIBLE_CHAIN_IDS.includes(chain.id));
 
 export interface ChainOption {
   name: string;
@@ -16,7 +19,7 @@ export interface ChainSelectOption {
  * Get all supported chains as options for ChainSelection component
  */
 export function getChainOptions(): ChainOption[] {
-  return Object.values(SUPPORTED_CHAINS).map((chain) => ({
+  return visibleChains().map((chain) => ({
     name: chain.name,
     icon: chain.icon,
     chainId: chain.id,
@@ -27,7 +30,7 @@ export function getChainOptions(): ChainOption[] {
  * Get all supported chains as options for Select component (CustomSelect)
  */
 export function getChainSelectOptions(): ChainSelectOption[] {
-  return Object.values(SUPPORTED_CHAINS).map((chain) => ({
+  return visibleChains().map((chain) => ({
     value: String(chain.id),
     label: chain.name,
     icon: chain.icon,

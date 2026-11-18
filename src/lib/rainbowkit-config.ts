@@ -3,6 +3,7 @@ import { mainnet, arbitrum, polygon, base, sepolia } from 'wagmi/chains';
 import { Chain } from 'wagmi/chains';
 import type { Config } from 'wagmi';
 import { getProxiedRpcUrl } from '@/lib/rpc-proxy';
+import { VISIBLE_CHAIN_IDS } from '@/config/chains';
 
 // Get project ID from environment variables
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || process.env.NEXT_PUBLIC_REOWN_PROJECT_ID || '';
@@ -116,20 +117,25 @@ const monadTestnet: Chain = {
   testnet: true,
 };
 
-// Configure the chains
-const chains: readonly [Chain, ...Chain[]] = [
+// Configure the chains (MegaETH first = default network). Only the chains in
+// NEXT_PUBLIC_VISIBLE_CHAIN_IDS are offered to wallets.
+const ALL_CHAINS: Chain[] = [
+  megaETH,
   mainnet,
   base,
   arbitrum,
   polygon,
   sepolia,
-  megaETH,
   megaETHV2,
   abstractTestnet,
   hyperliquidTestnet,
   injectiveTestnet,
   monadTestnet,
 ];
+const visibleWalletChains = ALL_CHAINS.filter((chain) => VISIBLE_CHAIN_IDS.includes(chain.id));
+const chains: readonly [Chain, ...Chain[]] = (
+  visibleWalletChains.length > 0 ? visibleWalletChains : [megaETH]
+) as [Chain, ...Chain[]];
 
 // Initialize config lazily to avoid server-side execution
 let _config: Config | undefined;

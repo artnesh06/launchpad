@@ -19,6 +19,15 @@ export interface ChainConfig {
   blockTime?: number; // Average block time in seconds
 }
 
+/**
+ * Chains shown in the UI (chain filter, create flow, wallet networks).
+ * Other configured chains stay in code but are hidden. Comma-separated ids.
+ */
+export const VISIBLE_CHAIN_IDS: number[] = (process.env.NEXT_PUBLIC_VISIBLE_CHAIN_IDS || '4326')
+  .split(',')
+  .map((id) => parseInt(id.trim(), 10))
+  .filter((id) => Number.isFinite(id));
+
 export const SUPPORTED_CHAINS: Record<number, ChainConfig> = {
   4326: {
     id: 4326,

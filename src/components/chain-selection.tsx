@@ -20,9 +20,13 @@ function ChainSelectionContent({ value, onChange }: ChainSelectionProps) {
     
     // Get chains from centralized config
     const chains = getChainOptions();
+    // With a single visible chain there is nothing to choose: hide "All Chains"
+    const singleChain = chains.length <= 1;
+    const isActive = (name: string) => selectedChain === name || (singleChain && selectedChain === "All Chains");
 
     return (
         <div className="w-full h-full flex items-center gap-0">
+            {!singleChain && (
             <button
                 onClick={() => onChange("All Chains", 'all')}
                 className={cn(
@@ -39,6 +43,7 @@ function ChainSelectionContent({ value, onChange }: ChainSelectionProps) {
                 />
                 {selectedChain === "All Chains" && <span className="text-base">All Chains</span>}
             </button>
+            )}
             {chains.map((chain) => (
                 <button
                     onClick={async () => {
@@ -63,14 +68,14 @@ function ChainSelectionContent({ value, onChange }: ChainSelectionProps) {
                     }}
                     key={chain.name}
                     className={cn(
-                        selectedChain === chain.name ? "bg-[#2D253E]" : "",
+                        isActive(chain.name) ? "bg-[#2D253E]" : "",
                         "h-[52px] cursor-pointer flex gap-2 text-white items-center justify-center border-r border-[#2F3336] transition-all duration-300",
-                        selectedChain === chain.name ? "px-6" : "px-3"
+                        isActive(chain.name) ? "px-6" : "px-3"
                     )}
                     suppressHydrationWarning
                 >
-                    <img src={chain.icon} alt={chain.name} className={cn("w-[22px] h-[22px]", selectedChain != chain.name && 'opacity-50')} />
-                    {selectedChain === chain.name && <span className="text-base">{chain.name}</span>}
+                    <img src={chain.icon} alt={chain.name} className={cn("w-[22px] h-[22px]", !isActive(chain.name) && 'opacity-50')} />
+                    {isActive(chain.name) && <span className="text-base">{chain.name}</span>}
                 </button>
             ))}
         </div>
@@ -79,11 +84,13 @@ function ChainSelectionContent({ value, onChange }: ChainSelectionProps) {
 
 const ChainSelection = ({ value, onChange }: ChainSelectionProps) => {
     const chains = getChainOptions();
+    const singleChain = chains.length <= 1;
     
     return (
         <WagmiReadyGuard
             fallback={
                 <div className="w-full h-full flex items-center gap-0">
+                    {!singleChain && (
                     <button
                         className="h-[52px] flex gap-2 text-white items-center justify-center border-r border-[#2F3336] px-6 min-w-[172px] bg-[#2D253E]"
                         suppressHydrationWarning
@@ -95,6 +102,7 @@ const ChainSelection = ({ value, onChange }: ChainSelectionProps) => {
                         />
                         <span className="text-base">All Chains</span>
                     </button>
+                    )}
                     {chains.map((chain) => (
                         <button
                             key={chain.name}
