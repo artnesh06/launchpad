@@ -294,7 +294,7 @@ export async function GET(request: NextRequest) {
         const creatorShort = metadata.creatorShort || truncateAddress(activity.actor);
         action = `Created by ${creatorShort}`;
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'burn') {
         name = metadata.collectionName || 'Unknown NFT';
@@ -308,7 +308,7 @@ export async function GET(request: NextRequest) {
         const operatorShort = metadata.operatorShort || truncateAddress(activity.actor);
         action = `Airdropped ${metadata.totalQuantity || '?'} to ${metadata.recipientCount || '?'} recipients by ${operatorShort}`;
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'phase') {
         name = metadata.collectionName || 'Unknown Collection';
@@ -319,13 +319,13 @@ export async function GET(request: NextRequest) {
           action = `Phase "${phaseName}" updated`;
         }
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'reveal') {
         name = metadata.collectionName || 'Unknown Collection';
         action = 'Collection revealed';
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'admin') {
         name = metadata.collectionName || 'Unknown Collection';
@@ -354,14 +354,14 @@ export async function GET(request: NextRequest) {
           action = 'Admin action';
         }
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'metadata') {
         name = metadata.collectionName || 'Unknown Collection';
         const updateType = metadata.updateType || 'metadata';
         action = `${updateType} updated`;
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       } else if (activityType === 'security') {
         name = metadata.collectionName || 'Unknown Collection';
@@ -381,7 +381,7 @@ export async function GET(request: NextRequest) {
           action = 'Security action';
         }
         // Resolve image path for relative paths
-        const rawImage = metadata.collectionImage || '/images/default-collection.png';
+        const rawImage = metadata.collectionImage || '/images/Icon/odds.png';
         avatar = resolveImagePath(rawImage, metadata.baseUri) || rawImage;
       }
 
